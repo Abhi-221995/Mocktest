@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: azure;
+        }
+        .header{
+            text-align: center;
+        }
+        .container{
+            width: 80%;
+            height: 100px;
+            border: 1px solid black;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            background-color: #fff;
+
+        }
+        #forms{
+            margin: auto;
+        }
+        .input{
+            height: 30px;
+            width: 200px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+        #btn{
+            width: 150px;
+            height: 35px;
+            background-color: maroon;
+            color: #fff;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+
+        .card{
+            width: 25%;
+            height: 200px;
+            border: 1px solid black;
+            text-align: start;
+            padding: 30px;
+            background-color: #fff;
+            border-radius: 20px;
+        }
+        #cardContainer{
+            width: 80%;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            height: 300px;
+            margin: auto;
+            padding-top: 20px;
+        }
+        .stuRemove{
+            width: 100px;
+            height: 30px;
+            border: none;
+            border-radius: 10px;
+            background-color: darkred;
+            color: #fff;
+        }
+        .filterBtn{
+            display: flex;
+            justify-content: center;
+            margin: auto;
+            padding: 20px;
+            gap: 10px;
+        }
+        button{
+            width: 100px;
+            height: 35px;
+            border: 1px solid black;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+   <h1>Student Management</h1>
+    </div>
+    <div class="container">
+        <div id="forms">
+            <input type="text" class="input" id="name" placeholder="Name">
+            <input type="text" class="input" id="age" placeholder="Age">
+            <input type="text" class="input" id="class" placeholder="Class">
+            <input type="text" class="input" id="marks" placeholder="Marks">
+            <button id="btn">Add Student</button>
+        </div>
+    </div>
+    <div class="filterBtn">
+        <button id="filterMarks">> 75 Marks </button>
+        <button id="sortMarks">SortBy Marks </button>
+        <button id="average">Average</button>
+    </div>
+    <div id="cardContainer">
+    </div>
+   <script>
+    let id=0;
+    let arr=[];
+    let names = document.getElementById("name");
+    let ages = document.getElementById("age");
+    let classe =document.getElementById("class");
+    let markse = document.getElementById("marks");
+    let btn = document.getElementById("btn");
+   //This function is to add cards
+    btn.addEventListener("click",()=>{
+             if(names.value===''){
+                alert("Please add the task")
+             }else{
+                let obj={
+                id: ++id,
+                names: names.value,
+                ages:ages.value,
+                classe: classe.value,
+                markse: markse.value,
+                compleated:false  
+             };
+               arr.push(obj);
+               console.log(arr)
+               cardRender();
+               names.value='';
+               ages.value='';
+               classe.value='';
+               markse.value='';
+             }
+    })
+    //This function is to add card dinamically
+   function cardRender(){
+        let cards= document.getElementById("cardContainer");
+        cards.innerHTML='';
+        arr.forEach((ele)=>{
+            cards.innerHTML +=
+            `<div class="card" id=${ele.id}>
+             <p>Name: ${ele.names}</p>
+             <p>Age:  ${ele.ages}</p>
+             <p>Class:${ele.classe}</p>
+             <p>Marks:${ele.markse}</p>
+            <button class="stuRemove" onclick="RemoveStu(${ele.id})">Remove</button>
+            </div>`
+        })
+   }
+// This function is to remove the items
+   function RemoveStu(id){
+    element = document.getElementById(id);
+    element.remove();
+        let itemid=arr.findIndex((obj)=>obj.id === id);
+        if(itemid !== -1){
+            arr.splice(taskid,1)
+            cardRender()
+        }
+   }
+
+//This function is to filter greater than 75 marks
+let filtermark= document.getElementById("filterMarks");
+
+filtermark.addEventListener("click",()=>{
+    let filter = arr.filter((obj)=>obj.markse >75);
+    arr=filter;
+    cardRender()
+})
+    
+// Function used for sorting based on marks
+let sortby =document.getElementById("sortMarks");
+
+sortby.addEventListener("click",()=>{
+    let sort= arr.sort((a,b)=>a.markse - b.markse);
+    console.log(sort);
+    arr=sort;
+    cardRender();
+})
+
+// This function is to find the average marks
+ 
+let avg= document.getElementById("average");
+
+avg.addEventListener("click",()=>{
+    let total=0;
+    let avgr=0;
+    for(let i=0;i<arr.length;i++){
+        total += Number(arr[i].markse);
+        avgr= total/arr.length;
+    }
+    alert(`The average marks ${avgr}`)
+})
+
+
+   </script>
+
+</body>
+</html>
